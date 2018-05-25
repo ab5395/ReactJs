@@ -1,6 +1,8 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import * as models from '../../models'
+import * as Modal from 'react-modal'
+import { createElement } from 'react';
 //import { CreateEdit } from './CreateEdit'
 //import { Details } from './Details'
 
@@ -105,7 +107,33 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
         if (!this.state.showCreate && !this.state.showDetails && !this.state.showEdit) {
             return null;
         }
-      //  return <Modal
+        return <Modal
+            isOpen={true}
+            ContentLabel="Crawl">
+            <button onClick={this.closeModal.bind(this)} className="action" title="Close">X</button>
+            {this.renderPopContent()}
+        </Modal>
+    }
+
+    private renderPopContent() {
+        if (this.state.showCreate) {
+            //return <CreateEdit id={null} dbaction="create" onSave="{this.handlePopupSave.bind(this)}"></CreateEdit>
+        }
+        if (this.state.showEdit) {
+            //return <CreateEdit id={this.state.activeId} dbaction="create" onSave="{this.handlePopupSave.bind(this)}"></CreateEdit>
+        }
+        if (this.state.showDetails) {
+            //return <Details id={this.state.activeId}></Details>
+        }
+    }
+
+    public closeModal() {
+        this.setState({ showDetails: false, showCreate: false, showEdit: false });
+    }
+
+    public handlePopupSave(success: boolean) {
+        if (success)
+            this.setState({ showCreate: false, showEdit: false });
     }
 }
 
