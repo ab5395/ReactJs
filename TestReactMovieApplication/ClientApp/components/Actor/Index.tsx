@@ -1,10 +1,16 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import * as models from '../../models'
+//import { CreateEdit } from './CreateEdit'
+//import { Details } from './Details'
 
 interface ActorState {
-    actor: models.Actor[]
-    loading: boolean
+    actor: models.Actor[];
+    loading: boolean,
+    showCreate: boolean,
+    showEdit: boolean,
+    showDetails: boolean,
+    activeId: number
 }
 
 export class Actors extends React.Component<RouteComponentProps<{}>, ActorState> {
@@ -12,7 +18,11 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
         super(props);
         this.state = {
             actor: [],
-            loading: true
+            loading: true,
+            showCreate: false,
+            showEdit: false,
+            showDetails: false,
+            activeId: 0
         };
         fetch('api/Actors/Index')
             .then(response => response.json() as Promise<models.Actor[]>)
@@ -29,6 +39,7 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
             : this.renderTable(this.state.actor);
         return <div>
             <h1>Actor</h1>
+            <button className="action" onClick={this.handleCreate.bind(this)}>Create</button>
             {Contents}
         </div>;
     }
@@ -48,16 +59,53 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
             <tbody>
                 {actor.map(item =>
                     <tr key={item.Id}>
-                        <td></td>
+                        <td>
+                            <button className="action" onClick={this.handleDelete(this)}>Delete</button>
+                            <button className="action" onClick={this.handleEdit(this)}>Edit</button>
+                            <button className="action" onClick={this.handleDetails(this)}>Details</button>
+                        </td>
                         <td>{item.Id}</td>
                         <td>{item.Name}</td>
                         <td>{item.Gender}</td>
                         <td>{item.Age}</td>
                         <td>{item.Picture}</td>
                     </tr>
-                    )}
+                )}
             </tbody>
         </table>
+    }
+
+    public handleCreate() {
+        this.setState({ showCreate: true, showDetails: false, showEdit: false })
+    }
+
+    public handleEdit(id: number) {
+        this.setState({ showEdit: true, showDetails: false, showCreate: false, activeId: id })
+    }
+
+    public handleDetails(id: number) {
+        this.setState({ showDetails: true, showCreate: false, showEdit: false, activeId: id })
+    }
+
+    public handleDelete(id: number) {
+        if (!confirm('Are you sure you want to delete this?'))
+            return
+        fetch('api/Actors/delete/' + id, { method: 'delete' })
+            .then(data => {
+                this.setState(
+                    {
+                        actor: this.state.actor.filter((rec) => {
+                            return (rec.Id != id);
+                        })
+                    });
+            });
+    }
+
+    private renderPopup() {
+        if (!this.state.showCreate && !this.state.showDetails && !this.state.showEdit) {
+            return null;
+        }
+      //  return <Modal
     }
 }
 
