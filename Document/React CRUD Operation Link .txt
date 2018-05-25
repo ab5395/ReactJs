@@ -1,0 +1,8 @@
+Part 1:
+https://www.codeproject.com/Articles/1214168/How-to-Implement-CRUD-forms-with-React-and-ASP-NET
+
+Part 2:
+https://www.codeproject.com/Articles/1214198/How-to-Implement-CRUD-Forms-with-React-and-ASP-N
+
+Part 3:
+https://www.codeproject.com/Articles/1214400/How-to-Implement-CRUD-forms-with-React-and-ASP-N

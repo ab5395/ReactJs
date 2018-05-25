@@ -1,0 +1,9 @@
+/*CReate commanx*/
+npm install -g create-react-app
+create-react-app (foldername)
+
+cd (foldername)
+npm start
+
+//remove files from source folder
+rm -Force src/*
