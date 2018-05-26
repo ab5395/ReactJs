@@ -4,7 +4,7 @@ import * as models from '../../models'
 import * as Modal from 'react-modal'
 import { createElement } from 'react';
 //import { CreateEdit } from './CreateEdit'
-//import { Details } from './Details'
+import { Details } from './Details'
 
 interface ActorState {
     actor: models.Actor[];
@@ -47,6 +47,7 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
     }
 
     private renderTable(actor: models.Actor[]) {
+        let self1 = actor;
         return <table className='table'>
             <thead>
                 <tr>
@@ -62,9 +63,9 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
                 {actor.map(item =>
                     <tr key={item.Id}>
                         <td>
-                            <button className="action" onClick={this.handleDelete(this)}>Delete</button>
-                            <button className="action" onClick={this.handleEdit(this)}>Edit</button>
-                            <button className="action" onClick={this.handleDetails(this)}>Details</button>
+                            <button className="action" onClick={(id) => this.handleDelete(item.Id)}>Delete</button>
+                            <button className="action" onClick={(id) => this.handleEdit(item.Id)}>Edit</button>
+                            <button className="action" onClick={(id) => this.handleDetails(item.Id)}>Details</button>
                         </td>
                         <td>{item.Id}</td>
                         <td>{item.Name}</td>
@@ -77,16 +78,26 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
         </table>
     }
 
-    public handleCreate() {
+    handleCreate() {
         this.setState({ showCreate: true, showDetails: false, showEdit: false })
     }
 
-    public handleEdit(id: number) {
+    handleEdit(id: number) {
         this.setState({ showEdit: true, showDetails: false, showCreate: false, activeId: id })
     }
 
-    public handleDetails(id: number) {
-        this.setState({ showDetails: true, showCreate: false, showEdit: false, activeId: id })
+    handleDetails(id: number) {
+        debugger;
+       // this.setState({ actors: [], showDetails: true, showCreate: false, showEdit: false, activeId: id })
+        this.state = {
+            actor: [],
+            loading: false,
+            showCreate: false,
+            showEdit: false,
+            showDetails: true,
+            activeId: id
+        };
+        this.renderPopup();
     }
 
     public handleDelete(id: number) {
@@ -107,12 +118,21 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
         if (!this.state.showCreate && !this.state.showDetails && !this.state.showEdit) {
             return null;
         }
-        return <Modal
+        //return <Modal
+        //    isOpen={true}
+        //    ContentLabel="Crawl">
+        //    <button onClick={this.closeModal.bind(this)} className="action" title="Close">X</button>
+        //    {this.renderPopContent()}
+        //</Modal>
+        let modal = <Modal
             isOpen={true}
-            ContentLabel="Crawl">
-            <button onClick={this.closeModal.bind(this)} className="action" title="Close">X</button>
-            {this.renderPopContent()}
-        </Modal>
+            contentLabel="Crawl">
+            <button onClick={this.closeModal.bind(this)} className="action" title="close">X</button>
+            {this.renderPopContent()};
+		</Modal>;
+        //Modal.setAppElement('#app-base');
+        //debugger;
+        return modal;
     }
 
     private renderPopContent() {
@@ -123,8 +143,10 @@ export class Actors extends React.Component<RouteComponentProps<{}>, ActorState>
             //return <CreateEdit id={this.state.activeId} dbaction="create" onSave="{this.handlePopupSave.bind(this)}"></CreateEdit>
         }
         if (this.state.showDetails) {
-            //return <Details id={this.state.activeId}></Details>
+            debugger;
+            return <Details id={this.state.activeId} />
         }
+        return null;
     }
 
     public closeModal() {
