@@ -7,3 +7,8 @@ npm start
 
 //remove files from source folder
 rm -Force src/*
+
+
+command for create new .net react app
+===============================
+dotnet new react -o my-new-app
