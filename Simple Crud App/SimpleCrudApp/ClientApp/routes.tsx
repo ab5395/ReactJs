@@ -7,6 +7,7 @@ import { Counter } from './components/Counter';
 import { FetchEmployee } from './components/FetchEmployee';
 import { AddEmployee } from './components/AddEmployee';
 import { NavigationTest } from './components/NavigationTest';
+import { CreateToken } from './components/Token';
 
 export const routes = <Layout>
     <Route exact path='/' component={Home} />
@@ -16,4 +17,5 @@ export const routes = <Layout>
     <Route path='/addemployee' component={AddEmployee} />
     <Route path='/employee/edit/:empid' component={AddEmployee} />
     <Route path='/navigationpage' component={NavigationTest} />
+    <Route path='/Token' component={CreateToken} />
 </Layout>;

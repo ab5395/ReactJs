@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using SimpleCrudApp.Models;
 
 namespace SimpleCrudApp.Controllers
@@ -32,6 +33,11 @@ namespace SimpleCrudApp.Controllers
         [Route("api/Employee/Details/{id}")]
         public TblEmployee Details(int id)
         {
+            //var client = new RestClient("http://localhost:53798/api/Account/GetToken");
+            //var request = new RestRequest(Method.GET);
+            //request.AddHeader("Postman-Token", "5c6f2bab-1cb9-4c53-9175-13fa1944002e");
+            //request.AddHeader("Cache-Control", "no-cache");
+            //IRestResponse response = client.Execute(request);
             return objemployee.GetEmployeeData(id);
         }
 
